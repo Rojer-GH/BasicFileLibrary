@@ -21,7 +21,7 @@ import de.rojer.editablefiles.exceptions.WrongTypeException;
  * You can change the encoding of every file to prevent "normal" people from
  * reading your files.
  * @author Rojer
- * @version 17.3.2019 15:04 UTC+1
+ * @version 17.3.2019
  */
 
 public class EditableFile{

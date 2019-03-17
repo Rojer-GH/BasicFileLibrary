@@ -3,7 +3,7 @@ package de.rojer.editablefiles.exceptions;
 /**
  * This exception occurs, if the program tries to read a data as the wrong type
  * @author Rojer
- * @version 17.3.2019 15:04 UTC+1
+ * @version 17.3.2019
  */
 
 public class WrongTypeException extends Exception{

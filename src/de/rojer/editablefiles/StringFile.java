@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * This class can read and load all characters from a text file
  * @author Rojer
- * @version 17.3.2019 15:04 UTC+1
+ * @version 17.3.2019
  */
 
 public class StringFile extends EditableFile{
