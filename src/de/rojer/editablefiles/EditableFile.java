@@ -19,8 +19,8 @@ import de.rojer.editablefiles.exceptions.WrongTypeException;
  * You can write/read: Integers, Booleans, Floats, Doubles and normal Strings.
  * You can change the encoding of every file to prevent "normal" people from reading your files.
  * 
- * 	@author FreshmanTV
- * 	@version 20.1.2019 12:07 UTC+1 
+ * 	@author Rojer
+ *  @version 17.3.2019 15:04 UTC+1 
  * 
  */
 
