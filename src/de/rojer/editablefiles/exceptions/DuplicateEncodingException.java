@@ -6,7 +6,7 @@ import java.util.HashMap;
  * This exception occurs, if an encoding list contains a minimum of two of the
  * same characters
  * @author Rojer
- * @version 17.3.2019 15:04 UTC+1
+ * @version 17.3.2019
  */
 
 public class DuplicateEncodingException extends Exception{
