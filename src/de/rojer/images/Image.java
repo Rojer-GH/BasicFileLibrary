@@ -141,6 +141,14 @@ public class Image{
 
 	// Methods
 
+	/**
+	 * Get a part of this image as an image (helpful for spritesheets!)
+	 * @param posX the starting x-position of the subimage
+	 * @param posY the starting y-position of the subimage
+	 * @param width the width of the subimage
+	 * @param height the height of the subimage
+	 * @return the subimage
+	 */
 	public Image getSubImage(int posX, int posY, int width, int height){
 		try{
 			checkForGoodDimensions(posX, posY, width, height);
