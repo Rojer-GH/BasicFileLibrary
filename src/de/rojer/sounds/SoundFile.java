@@ -22,10 +22,18 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class SoundFile{
 
+	/**
+	 * The Sound
+	 */
 	protected Clip sound;
 
+	/**
+	 * All controls supported
+	 */
 	protected FloatControl gain, volume, pan, balance, auxSend, auxReturn, reverbSend, reverbReturn;
 
+	//Constructors
+	
 	/**
 	 * Load in an audio file
 	 * @param path the path to the file
@@ -60,6 +68,26 @@ public class SoundFile{
 		}catch(UnsupportedAudioFileException | IOException | LineUnavailableException e){
 			e.printStackTrace();
 		}
+	}
+	
+	//"Destrucotrs"
+	
+	/**
+	 * Destroys this object
+	 * @param file this sound file
+	 */
+	public void destroy(SoundFile file) {
+		this.close();
+		this.sound = null;
+		this.auxReturn = null;
+		this.auxSend = null;
+		this.balance = null;
+		this.gain = null;
+		this.pan = null;
+		this.reverbReturn = null;
+		this.reverbSend = null;
+		this.volume = null;
+		file = null;
 	}
 
 	/**

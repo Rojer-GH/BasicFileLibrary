@@ -31,18 +31,29 @@ public class EditableFile{
 	 */
 	public static final int AMOUNT_OF_POSSIBLE_CHARACTERS = 127;
 
-	// The text file
+	/**
+	 * The text file
+	 */
 	protected File file;
 
-	// The path to the file
+	/**
+	 * The path to the file
+	 */
 	protected String path;
-	// The name of the file (with extension)
+	
+	/**
+	 * The name of the file (with extension)
+	 */
 	protected String fileName;
 
-	// The list of encoded characters
+	/**
+	 * The list of encoded characters
+	 */
 	protected HashMap<Character, Character> encoding;
 
-	// List of types
+	/**
+	 * List of types
+	 */
 	protected static final String TYPE_INT = "INT", TYPE_CHAR = "CHAR", TYPE_BOOLEAN = "BOOLEAN", TYPE_FLOAT_DOUBLE = "FLOAT/DOUBLE", TYPE_STRING = "STRING";
 
 	/**
@@ -124,9 +135,25 @@ public class EditableFile{
 		moveEncodingList(offsetEncoding);
 		loadFile();
 	}
+	
+	//"Destructors"
+	
+	/**
+	 * Deletes this file
+	 * @param instance the instance of this object
+	 */
+	public void deleteFile(EditableFile file){
+		this.file.delete();
+		this.encoding = null;
+		this.path = null;
+		this.fileName = null;
+		file = null;
+	}
 
-	// Loads in the file for use
-	private void loadFile(){
+	/**
+	 * Loads in the file for use
+	 */
+	protected void loadFile(){
 		File folder = new File(path);
 		file = new File(path.concat("/" + fileName));
 		if (!file.exists()){
@@ -142,15 +169,6 @@ public class EditableFile{
 		}catch(DuplicateEncodingException e){
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Deletes this file
-	 * @param instance : the instance of this object
-	 */
-	public void deleteFile(EditableFile instance){
-		file.delete();
-		instance = null;
 	}
 
 	/**
@@ -345,7 +363,7 @@ public class EditableFile{
 	 * Gets a double with a certain path
 	 * @param path the path to the double value
 	 * @return the double value
-	 * @throws WrongTypeException when the value at that path is not an int,
+	 * @throws WrongTypeException when the value at that path is not an integer,
 	 *         double or float
 	 */
 	public double getDouble(String path) throws WrongTypeException{
@@ -461,16 +479,6 @@ public class EditableFile{
 		try{
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			/*
-			 * br.lines().sorted(new Comparator<String>() {
-			 * 
-			 * @Override
-			 * public int compare(String str1, String str2) {
-			 * int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-			 * return (res != 0) ? res : str1.compareTo(str2);
-			 * }
-			 * });
-			 */
 			Iterator<String> it = br.lines().iterator();
 			path = encode(path + ": ");
 			String valueString = encode(value + "");
@@ -514,16 +522,6 @@ public class EditableFile{
 		try{
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			/*
-			 * br.lines().sorted(new Comparator<String>() {
-			 * 
-			 * @Override
-			 * public int compare(String str1, String str2) {
-			 * int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-			 * return (res != 0) ? res : str1.compareTo(str2);
-			 * }
-			 * });
-			 */
 			Iterator<String> it = br.lines().iterator();
 			path = encode(path + ": ");
 			String valueString = encode(value + "");
@@ -567,16 +565,6 @@ public class EditableFile{
 		try{
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			/*
-			 * br.lines().sorted(new Comparator<String>() {
-			 * 
-			 * @Override
-			 * public int compare(String str1, String str2) {
-			 * int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-			 * return (res != 0) ? res : str1.compareTo(str2);
-			 * }
-			 * });
-			 */
 			Iterator<String> it = br.lines().iterator();
 			path = encode(path + ": ");
 			String valueString = encode(value + "");
@@ -620,16 +608,6 @@ public class EditableFile{
 		try{
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			/*
-			 * br.lines().sorted(new Comparator<String>() {
-			 * 
-			 * @Override
-			 * public int compare(String str1, String str2) {
-			 * int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-			 * return (res != 0) ? res : str1.compareTo(str2);
-			 * }
-			 * });
-			 */
 			Iterator<String> it = br.lines().iterator();
 			path = encode(path + ": ");
 			String valueString = encode(value + "");
@@ -673,16 +651,6 @@ public class EditableFile{
 		try{
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			/*
-			 * br.lines().sorted(new Comparator<String>() {
-			 * 
-			 * @Override
-			 * public int compare(String str1, String str2) {
-			 * int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-			 * return (res != 0) ? res : str1.compareTo(str2);
-			 * }
-			 * });
-			 */
 			Iterator<String> it = br.lines().iterator();
 			path = encode(path + ": ");
 			String valueString = encode(value + "");
@@ -797,14 +765,14 @@ public class EditableFile{
 	 * @param target the character
 	 * @param encoding the encoding
 	 */
-	private void addEncodingChar(char target, char encoding){ this.encoding.put(target, encoding); }
+	protected void addEncodingChar(char target, char encoding){ this.encoding.put(target, encoding); }
 
 	/**
 	 * Shifts the encoding list in a certain direction
 	 * @param units the amount of characters to move (positive: to the right,
 	 *        negative: to the left)
 	 */
-	private void moveEncodingList(int units){
+	protected void moveEncodingList(int units){
 		int offset = (units % AMOUNT_OF_POSSIBLE_CHARACTERS) * (int)Math.signum(units);
 		HashMap<Character, Character> newMap = new HashMap<Character, Character>();
 		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
@@ -819,8 +787,12 @@ public class EditableFile{
 		}
 	}
 
-	// Encodes a string according to the encoding list
-	private String encode(String string){
+	/**
+	 * Encodes a string according to the encoding list
+	 * @param string the string to be encoded
+	 * @return the encoded string
+	 */
+	protected String encode(String string){
 		char[] result = new char[string.length()];
 		for(int i = 0; i < result.length; i++){
 			result[i] = encoding.get(string.charAt(i));
@@ -828,8 +800,12 @@ public class EditableFile{
 		return new String(result);
 	}
 
-	// Decodes a string according to the encoding list
-	private String decode(String string){
+	/**
+	 * Decodes a string according to the encoding list
+	 * @param string the string to be decoded
+	 * @return the decoded string
+	 */
+	protected String decode(String string){
 		char[] result = new char[string.length()];
 		for(int i = 0; i < result.length; i++){
 			Iterator<Character> it = encoding.keySet().iterator();
@@ -852,8 +828,12 @@ public class EditableFile{
 		return new String(result);
 	}
 
-	// Checks if a given string can be parsed into an int
-	private boolean isInt(String test){
+	/**
+	 * Checks if a given string can be parsed into an integer
+	 * @param test the string to test
+	 * @return true if the string is an integer
+	 */
+	protected boolean isInt(String test){
 		try{
 			Integer.parseInt(test);
 		}catch(NumberFormatException e){
@@ -862,8 +842,12 @@ public class EditableFile{
 		return true;
 	}
 
-	// Checks if a given string can be parsed into a float/double
-	private boolean isFloat(String test){
+	/**
+	 * Checks if a given string can be parsed into a float/double
+	 * @param test the string to test
+	 * @return true if the string is a float/double
+	 */
+	protected boolean isFloat(String test){
 		try{
 			Float.parseFloat(test);
 		}catch(NumberFormatException e){
@@ -872,19 +856,32 @@ public class EditableFile{
 		return true;
 	}
 
-	// Checks if a given string can be parsed into a boolean
-	private boolean isBoolean(String test){
+	/**
+	 * Checks if a given string can be parsed into a boolean
+	 * @param test the string to test
+	 * @return true if the string is a boolean
+	 */
+	protected boolean isBoolean(String test){
 		if (test.equalsIgnoreCase("true") || test.equalsIgnoreCase("false")){ return true; }
 		return false;
 	}
 
-	private boolean isChar(String test){
-		if (test.length() <= 1){ return true; }
+	/**
+	 * Checks if a given string can be parsed into a char
+	 * @param test the string to test
+	 * @return true if the length of the string is exactly 1
+	 */
+	protected boolean isChar(String test){
+		if (test.length() == 1){ return true; }
 		return false;
 	}
 
-	// Returns the type of a given string
-	private String getType(String test){
+	/**
+	 * Returns the type of a given string
+	 * @param test the string to test
+	 * @return the type
+	 */
+	protected String getType(String test){
 		String type = TYPE_STRING;
 		if (isBoolean(test)){
 			type = TYPE_BOOLEAN;
@@ -896,8 +893,12 @@ public class EditableFile{
 		return type;
 	}
 
-	// Checks if an encoding character has duplicates
-	private boolean hasDuplicate(char target){
+	/**
+	 * Checks if an encoding character has duplicates
+	 * @param target the target character
+	 * @return true if it has a duplicate
+	 */
+	protected boolean hasDuplicate(char target){
 		Iterator<Character> keys = encoding.keySet().iterator();
 		int count = 0;
 		while (keys.hasNext()){
@@ -906,8 +907,11 @@ public class EditableFile{
 		return count > 1;
 	}
 
-	// Searches the whole list for duplicates
-	private void testForDuplicates() throws DuplicateEncodingException{
+	/**
+	 * Searches the whole list for duplicates
+	 * @throws DuplicateEncodingException
+	 */
+	protected void testForDuplicates() throws DuplicateEncodingException{
 		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
 			if (hasDuplicate((char)i)){ throw new DuplicateEncodingException(encoding); }
 		}

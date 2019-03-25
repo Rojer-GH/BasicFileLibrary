@@ -16,7 +16,9 @@ public class StringFile extends EditableFile{
 
 	// Attributes
 
-	// The text of the file
+	/**
+	 * The text of the file
+	 */
 	protected String source = "";
 
 	// Constructors
@@ -45,6 +47,17 @@ public class StringFile extends EditableFile{
 			e.printStackTrace();
 		}
 
+	}
+	
+	//"Destructors"
+	
+	public void destroy(StringFile file) {
+		this.file.delete();
+		this.encoding = null;
+		this.path = null;
+		this.fileName = null;
+		this.source = null;
+		file = null;
 	}
 
 	// EditableFile-inherited methods

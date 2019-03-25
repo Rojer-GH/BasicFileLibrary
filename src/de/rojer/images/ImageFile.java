@@ -18,15 +18,28 @@ import de.rojer.images.exceptions.ImpossibleDimensionsException;
  * bufferedimage-object. The path to the file and the name of the file are saved
  * too.
  * @author Rojer
- * @version 18.03.2019
+ * @version 17.03.2019
  */
 public class ImageFile{
 
+	/**
+	 * The dimensions of the image
+	 */
 	protected int width, height;
+	
+	/**
+	 * An array, containing the pixel data of the image
+	 */
 	protected int[] pixels;
 
+	/**
+	 * The image object
+	 */
 	protected BufferedImage image;
 
+	/**
+	 * The path to the image file
+	 */
 	protected String path, fileName;
 
 	/**
@@ -138,6 +151,22 @@ public class ImageFile{
 			e.printStackTrace();
 		}
 	}
+	
+	//"Destructors"
+	
+	/**
+	 * Destroys this object and all of its data
+	 * @param image this image
+	 */
+	public void destroy(ImageFile image) {
+		this.width = 0;
+		this.height = 0;
+		this.pixels = null;
+		this.path = null;
+		this.fileName = null;
+		this.image = null;
+		image = null;
+	}
 
 	// Methods
 
@@ -162,6 +191,14 @@ public class ImageFile{
 
 	// Helper-Methods
 
+	/**
+	 * Checks, if the given dimensions are possible
+	 * @param posX the wanted x-position
+	 * @param posY the wanted y-position
+	 * @param width the wanted width
+	 * @param height the wanted height
+	 * @throws ImpossibleDimensionsException
+	 */
 	protected void checkForGoodDimensions(int posX, int posY, int width, int height) throws ImpossibleDimensionsException{
 		if (posX < 0 || posX > this.image.getWidth() - 1){
 			throw new ImpossibleDimensionsException("" + posX, "0 - " + (this.image.getWidth() - 1));
@@ -172,12 +209,25 @@ public class ImageFile{
 		}else if (height <= 0 || height + posY > this.image.getHeight()){ throw new ImpossibleDimensionsException("" + height, "1 - " + (this.image.getHeight() - posY)); }
 	}
 
+	/**
+	 * Checks, if the given scalings are possible
+	 * @param scaleX the wanted x-scale
+	 * @param width the wanted width
+	 * @param scaleY the wanted y-scale
+	 * @param height the wanted height
+	 * @throws ImpossibleDimensionsException
+	 */
 	protected void checkForGoodScaling(float scaleX, int width, float scaleY, int height) throws ImpossibleDimensionsException{
 		if (scaleX * width <= 0){
 			throw new ImpossibleDimensionsException("" + scaleX + " (at a width of " + width + " )", "Min. " + (float)(1 / (float)width));
 		}else if (scaleY * height <= 0){ throw new ImpossibleDimensionsException("" + scaleY + " (at a height of " + width + " )", "Min. " + (float)(1 / (float)height)); }
 	}
 
+	/**
+	 * Converts an AWT Image object into an bufferedimage-object
+	 * @param img the image to convert
+	 * @return the converted image
+	 */
 	protected static BufferedImage toBufferedImage(java.awt.Image img){
 		if (img instanceof BufferedImage){ return (BufferedImage)img; }
 
