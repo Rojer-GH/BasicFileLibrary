@@ -56,8 +56,8 @@ public class ImageFile{
 	/**
 	 * Create an scaled image-object
 	 * @param image the bufferedimage-object to be used
-	 * @param width the new width ( <= 0 for normal width)
-	 * @param height the new height ( <= 0 for normal height)
+	 * @param width the new width (smaller or equal 0 for normal width)
+	 * @param height the new height (smaller or equal 0 for normal height)
 	 */
 	public ImageFile(BufferedImage image, int width, int height){
 		int newWidth, newHeight;
@@ -72,8 +72,8 @@ public class ImageFile{
 	/**
 	 * Create an scaled image-object
 	 * @param image the bufferedimage-object to be used
-	 * @param scaleX the factor to scale the width with ( > 0)
-	 * @param scaleY the factor to scale the height with ( > 0)
+	 * @param scaleX the factor to scale the width with (greater 0)
+	 * @param scaleY the factor to scale the height with (greater 0)
 	 */
 	public ImageFile(BufferedImage image, float scaleX, float scaleY){
 		try{
@@ -110,8 +110,8 @@ public class ImageFile{
 	 * Create an scaled image-object
 	 * @param path the path to the image
 	 * @param fileName the name of the image (with extension!)
-	 * @param width the new width ( <= 0 for normal width)
-	 * @param height the new height ( <= 0 for normal height)
+	 * @param width the new width (smaller or equal 0 for normal width)
+	 * @param height the new height (smaller or equal 0 for normal height)
 	 */
 	public ImageFile(String path, String fileName, int width, int height){
 		try{
@@ -131,8 +131,8 @@ public class ImageFile{
 	 * Create an scaled image-object
 	 * @param path the path to the image
 	 * @param fileName the name of the image (with extension!)
-	 * @param scaleX the factor to scale the width with ( > 0)
-	 * @param scaleY the factor to scale the height with ( > 0)
+	 * @param scaleX the factor to scale the width with (greater 0)
+	 * @param scaleY the factor to scale the height with (greater 0)
 	 */
 	public ImageFile(String path, String fileName, float scaleX, float scaleY){
 		try{
@@ -197,7 +197,7 @@ public class ImageFile{
 	 * @param posY the wanted y-position
 	 * @param width the wanted width
 	 * @param height the wanted height
-	 * @throws ImpossibleDimensionsException
+	 * @throws ImpossibleDimensionsException when the wanted values are not suited
 	 */
 	protected void checkForGoodDimensions(int posX, int posY, int width, int height) throws ImpossibleDimensionsException{
 		if (posX < 0 || posX > this.image.getWidth() - 1){
@@ -215,7 +215,7 @@ public class ImageFile{
 	 * @param width the wanted width
 	 * @param scaleY the wanted y-scale
 	 * @param height the wanted height
-	 * @throws ImpossibleDimensionsException
+	 * @throws ImpossibleDimensionsException when the wanted values are not suited
 	 */
 	protected void checkForGoodScaling(float scaleX, int width, float scaleY, int height) throws ImpossibleDimensionsException{
 		if (scaleX * width <= 0){

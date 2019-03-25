@@ -140,7 +140,7 @@ public class EditableFile{
 	
 	/**
 	 * Deletes this file
-	 * @param instance the instance of this object
+	 * @param file this object
 	 */
 	public void deleteFile(EditableFile file){
 		this.file.delete();
@@ -909,7 +909,7 @@ public class EditableFile{
 
 	/**
 	 * Searches the whole list for duplicates
-	 * @throws DuplicateEncodingException
+	 * @throws DuplicateEncodingException when a minimum of 2 chars have the same encoding
 	 */
 	protected void testForDuplicates() throws DuplicateEncodingException{
 		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){

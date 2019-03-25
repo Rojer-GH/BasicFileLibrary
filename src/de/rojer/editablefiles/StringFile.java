@@ -26,8 +26,8 @@ public class StringFile extends EditableFile{
 	/**
 	 * Call this method to find a file (when not found, create) and copy all its
 	 * text into a usable variable
-	 * @param the path to the folder
-	 * @param the name of the file
+	 * @param path the path to the folder
+	 * @param fileName the name of the file
 	 */
 	public StringFile(String path, String fileName){
 		super(path, fileName);
