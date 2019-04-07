@@ -18,15 +18,20 @@ import de.rojer.images.exceptions.ImpossibleDimensionsException;
  * bufferedimage-object. The path to the file and the name of the file are saved
  * too.
  * @author Rojer
- * @version 17.03.2019
+ * @version 7.04.2019
  */
 public class ImageFile{
 
 	/**
-	 * The dimensions of the image
+	 * The width of the image
 	 */
-	protected int width, height;
-	
+	protected int width;
+
+	/**
+	 * The height of the image
+	 */
+	protected int height;
+
 	/**
 	 * An array, containing the pixel data of the image
 	 */
@@ -36,11 +41,6 @@ public class ImageFile{
 	 * The image object
 	 */
 	protected BufferedImage image;
-
-	/**
-	 * The path to the image file
-	 */
-	protected String path, fileName;
 
 	/**
 	 * Create an image-object
@@ -107,6 +107,21 @@ public class ImageFile{
 	}
 
 	/**
+	 * Create an image-object
+	 * @param completePath the complete path to the file (with extension)
+	 */
+	public ImageFile(String completePath){
+		try{
+			this.image	= ImageIO.read(new File(completePath));
+			this.width	= this.image.getWidth();
+			this.height	= this.image.getHeight();
+			this.pixels	= this.image.getRGB(0, 0, this.width, this.height, null, 0, this.width);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Create an scaled image-object
 	 * @param path the path to the image
 	 * @param fileName the name of the image (with extension!)
@@ -119,6 +134,26 @@ public class ImageFile{
 			newWidth	= (width <= 0) ? image.getWidth() : width;
 			newHeight	= (height <= 0) ? image.getHeight() : height;
 			this.image	= toBufferedImage(ImageIO.read(new File(path + "/" + fileName)).getScaledInstance(newWidth, newHeight, 0));
+			this.width	= this.image.getWidth();
+			this.height	= this.image.getHeight();
+			this.pixels	= this.image.getRGB(0, 0, newWidth, newHeight, null, 0, newWidth);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create an scaled image-object
+	 * @param completePath the complete path to the file (with extension)
+	 * @param width the new width (smaller or equal 0 for normal width)
+	 * @param height the new height (smaller or equal 0 for normal height)
+	 */
+	public ImageFile(String completePath, int width, int height){
+		try{
+			int newWidth, newHeight;
+			newWidth	= (width <= 0) ? image.getWidth() : width;
+			newHeight	= (height <= 0) ? image.getHeight() : height;
+			this.image	= toBufferedImage(ImageIO.read(new File(completePath)).getScaledInstance(newWidth, newHeight, 0));
 			this.width	= this.image.getWidth();
 			this.height	= this.image.getHeight();
 			this.pixels	= this.image.getRGB(0, 0, newWidth, newHeight, null, 0, newWidth);
@@ -151,21 +186,43 @@ public class ImageFile{
 			e.printStackTrace();
 		}
 	}
-	
-	//"Destructors"
-	
+
+	/**
+	 * Create an scaled image-object
+	 * @param completePath the complete path to the file (with extension)
+	 * @param scaleX the factor to scale the width with (greater 0)
+	 * @param scaleY the factor to scale the height with (greater 0)
+	 */
+	public ImageFile(String completePath, float scaleX, float scaleY){
+		try{
+			BufferedImage image = (BufferedImage)ImageIO.read(new File(completePath));
+			checkForGoodScaling(scaleX, image.getWidth(), scaleY, image.getHeight());
+			int newWidth, newHeight;
+			newWidth	= (int)(image.getWidth() * scaleX);
+			newHeight	= (int)(image.getHeight() * scaleY);
+			this.image	= toBufferedImage(image.getScaledInstance(newWidth, newHeight, 0));
+			this.width	= this.image.getWidth();
+			this.height	= this.image.getHeight();
+			this.pixels	= this.image.getRGB(0, 0, newWidth, newHeight, null, 0, newWidth);
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(ImpossibleDimensionsException e){
+			e.printStackTrace();
+		}
+	}
+
+	// "Destructors"
+
 	/**
 	 * Destroys this object and all of its data
 	 * @param image this image
 	 */
-	public void destroy(ImageFile image) {
-		this.width = 0;
-		this.height = 0;
-		this.pixels = null;
-		this.path = null;
-		this.fileName = null;
-		this.image = null;
-		image = null;
+	public void destroy(ImageFile image){
+		this.width	= 0;
+		this.height	= 0;
+		this.pixels	= null;
+		this.image	= null;
+		image		= null;
 	}
 
 	// Methods
@@ -197,7 +254,8 @@ public class ImageFile{
 	 * @param posY the wanted y-position
 	 * @param width the wanted width
 	 * @param height the wanted height
-	 * @throws ImpossibleDimensionsException when the wanted values are not suited
+	 * @throws ImpossibleDimensionsException when the wanted values are not
+	 *         suited
 	 */
 	protected void checkForGoodDimensions(int posX, int posY, int width, int height) throws ImpossibleDimensionsException{
 		if (posX < 0 || posX > this.image.getWidth() - 1){
@@ -215,7 +273,8 @@ public class ImageFile{
 	 * @param width the wanted width
 	 * @param scaleY the wanted y-scale
 	 * @param height the wanted height
-	 * @throws ImpossibleDimensionsException when the wanted values are not suited
+	 * @throws ImpossibleDimensionsException when the wanted values are not
+	 *         suited
 	 */
 	protected void checkForGoodScaling(float scaleX, int width, float scaleY, int height) throws ImpossibleDimensionsException{
 		if (scaleX * width <= 0){

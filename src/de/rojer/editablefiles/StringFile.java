@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * This class can read and load all characters from a text file
  * @author Rojer
- * @version 17.3.2019
+ * @version 7.04.2019
  */
 
 public class StringFile extends EditableFile{
@@ -48,16 +48,41 @@ public class StringFile extends EditableFile{
 		}
 
 	}
-	
-	//"Destructors"
-	
-	public void destroy(StringFile file) {
+
+	/**
+	 * Call this method to find a file (when not found, create) and copy all its
+	 * text into a usable variable
+	 * @param completePath the complete path to the file (with extension)
+	 */
+	public StringFile(String completePath){
+		super(completePath);
+		try{
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			Iterator<String> it = br.lines().iterator();
+			while (it.hasNext()){
+				String line = it.next();
+				source += line + "\n";
+			}
+			source += "\0";
+			br.close();
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	// "Destructors"
+
+	public void destroy(StringFile file){
 		this.file.delete();
-		this.encoding = null;
-		this.path = null;
-		this.fileName = null;
-		this.source = null;
-		file = null;
+		this.encoding		= null;
+		this.path			= null;
+		this.fileName		= null;
+		this.completePath	= null;
+		this.source			= null;
+		file				= null;
 	}
 
 	// EditableFile-inherited methods

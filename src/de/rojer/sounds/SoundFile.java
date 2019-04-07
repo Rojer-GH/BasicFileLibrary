@@ -18,7 +18,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  * Use this class to load in an audio file (.wav format!)
  * @author Rojer
- * @version 18.03.2019
+ * @version 7.04.2019
  */
 public class SoundFile{
 
@@ -28,12 +28,47 @@ public class SoundFile{
 	protected Clip sound;
 
 	/**
-	 * All controls supported
+	 * Gain-controller
 	 */
-	protected FloatControl gain, volume, pan, balance, auxSend, auxReturn, reverbSend, reverbReturn;
+	protected FloatControl gain;
 
-	//Constructors
-	
+	/**
+	 * Volume-controller
+	 */
+	protected FloatControl volume;
+
+	/**
+	 * Panorama-controller
+	 */
+	protected FloatControl pan;
+
+	/**
+	 * Balance-controller
+	 */
+	protected FloatControl balance;
+
+	/**
+	 * Auxsend-controller
+	 */
+	protected FloatControl auxSend;
+
+	/**
+	 * Auxreturn-controller
+	 */
+	protected FloatControl auxReturn;
+
+	/**
+	 * Reverbsend-controller
+	 */
+	protected FloatControl reverbSend;
+
+	/**
+	 * Reverbreturn-controller
+	 */
+	protected FloatControl reverbReturn;
+
+	// Constructors
+
 	/**
 	 * Load in an audio file
 	 * @param path the path to the file
@@ -69,25 +104,25 @@ public class SoundFile{
 			e.printStackTrace();
 		}
 	}
-	
-	//"Destrucotrs"
-	
+
+	// "Destrucotrs"
+
 	/**
 	 * Destroys this object
 	 * @param file this sound file
 	 */
-	public void destroy(SoundFile file) {
+	public void destroy(SoundFile file){
 		this.close();
-		this.sound = null;
-		this.auxReturn = null;
-		this.auxSend = null;
-		this.balance = null;
-		this.gain = null;
-		this.pan = null;
-		this.reverbReturn = null;
-		this.reverbSend = null;
-		this.volume = null;
-		file = null;
+		this.sound			= null;
+		this.auxReturn		= null;
+		this.auxSend		= null;
+		this.balance		= null;
+		this.gain			= null;
+		this.pan			= null;
+		this.reverbReturn	= null;
+		this.reverbSend		= null;
+		this.volume			= null;
+		file				= null;
 	}
 
 	/**

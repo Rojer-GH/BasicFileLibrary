@@ -21,7 +21,7 @@ import de.rojer.editablefiles.exceptions.WrongTypeException;
  * You can change the encoding of every file to prevent "normal" people from
  * reading your files.
  * @author Rojer
- * @version 17.3.2019
+ * @versio 7.04.2019
  */
 
 public class EditableFile{
@@ -40,11 +40,16 @@ public class EditableFile{
 	 * The path to the file
 	 */
 	protected String path;
-	
+
 	/**
 	 * The name of the file (with extension)
 	 */
 	protected String fileName;
+
+	/**
+	 * The complete path to the file (with extension)
+	 */
+	protected String completePath;
 
 	/**
 	 * The list of encoded characters
@@ -61,7 +66,20 @@ public class EditableFile{
 	 * @param path the path to the file
 	 * @param fileName the name of the file (with extension!)
 	 */
-	public EditableFile(String path, String fileName){
+	public EditableFile(String path, String fileName){ this(path + "/" + fileName); }
+
+	/**
+	 * Create a file
+	 * @param completePath the complete path to the file (with extension)
+	 */
+	public EditableFile(String completePath){
+		String[] args = completePath.split("/");
+		String path = "", fileName = "";
+		for(int i = 0; i < args.length - 1; i++){
+			path += args[i] + "/";
+		}
+		fileName		= args[args.length - 1];
+
 		this.path		= path;
 		this.fileName	= fileName;
 		this.encoding	= new HashMap<Character, Character>();
@@ -78,13 +96,16 @@ public class EditableFile{
 	 * @param offsetEncoding the amount of characters to move (positive: to the
 	 *        right, negative: to the left)
 	 */
-	public EditableFile(String path, String fileName, int offsetEncoding){
-		this.path		= path;
-		this.fileName	= fileName;
-		this.encoding	= new HashMap<Character, Character>();
-		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
-			addEncodingChar((char)i, (char)i);
-		}
+	public EditableFile(String path, String fileName, int offsetEncoding){ this(path + "/" + fileName, offsetEncoding); }
+
+	/**
+	 * Create a file with an offset encoding
+	 * @param completePath the complete path to the file (with extension)
+	 * @param offsetEncoding the amount of characters to move (positive: to the
+	 *        right, negative: to the left)
+	 */
+	public EditableFile(String completePath, int offsetEncoding){
+		this(completePath);
 		moveEncodingList(offsetEncoding);
 		loadFile();
 	}
@@ -96,13 +117,16 @@ public class EditableFile{
 	 * @param encoding the custom list of encoded characters (only the
 	 *        characters that should be encoded differently)
 	 */
-	public EditableFile(String path, String fileName, HashMap<Character, Character> encoding){
-		this.path		= path;
-		this.fileName	= fileName;
-		this.encoding	= new HashMap<Character, Character>();
-		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
-			addEncodingChar((char)i, (char)i);
-		}
+	public EditableFile(String path, String fileName, HashMap<Character, Character> encoding){ this(path + "/" + fileName, encoding); }
+
+	/**
+	 * Create a file with a specific encoding list
+	 * @param completePath the complete path to the file (with extension)
+	 * @param encoding the custom list of encoded characters (only the
+	 *        characters that should be encoded differently)
+	 */
+	public EditableFile(String completePath, HashMap<Character, Character> encoding){
+		this(completePath);
 		Iterator<Character> it = encoding.keySet().iterator();
 		while (it.hasNext()){
 			char key = it.next();
@@ -120,34 +144,35 @@ public class EditableFile{
 	 * @param offsetEncoding the amount of characters to move (positive: to the
 	 *        right, negative: to the left)
 	 */
-	public EditableFile(String path, String fileName, HashMap<Character, Character> encoding, int offsetEncoding){
-		this.path		= path;
-		this.fileName	= fileName;
-		this.encoding	= new HashMap<Character, Character>();
-		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
-			addEncodingChar((char)i, (char)i);
-		}
-		Iterator<Character> it = encoding.keySet().iterator();
-		while (it.hasNext()){
-			char key = it.next();
-			if (encoding.get(key) != key){ addEncodingChar((char)key, (char)encoding.get(key)); }
-		}
+	public EditableFile(String path, String fileName, HashMap<Character, Character> encoding, int offsetEncoding){ this(path + "/" + fileName, encoding, offsetEncoding); }
+
+	/**
+	 * Create a file with a specific encoding list
+	 * @param completePath the complete path to the file (with extension)
+	 * @param encoding the custom list of encoded characters (only the
+	 *        characters that should be encoded differently)
+	 * @param offsetEncoding the amount of characters to move (positive: to the
+	 *        right, negative: to the left)
+	 */
+	public EditableFile(String completePath, HashMap<Character, Character> encoding, int offsetEncoding){
+		this(completePath, encoding);
 		moveEncodingList(offsetEncoding);
 		loadFile();
 	}
-	
-	//"Destructors"
-	
+
+	// "Destructors"
+
 	/**
 	 * Deletes this file
 	 * @param file this object
 	 */
 	public void deleteFile(EditableFile file){
 		this.file.delete();
-		this.encoding = null;
-		this.path = null;
-		this.fileName = null;
-		file = null;
+		this.encoding		= null;
+		this.path			= null;
+		this.fileName		= null;
+		this.completePath	= null;
+		file				= null;
 	}
 
 	/**
@@ -909,7 +934,8 @@ public class EditableFile{
 
 	/**
 	 * Searches the whole list for duplicates
-	 * @throws DuplicateEncodingException when a minimum of 2 chars have the same encoding
+	 * @throws DuplicateEncodingException when a minimum of 2 chars have the
+	 *         same encoding
 	 */
 	protected void testForDuplicates() throws DuplicateEncodingException{
 		for(int i = 0; i < AMOUNT_OF_POSSIBLE_CHARACTERS; i++){
